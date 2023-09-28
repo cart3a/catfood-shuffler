@@ -12,6 +12,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.jetbrains.handson.kmm.shared.SpaceXSDK
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 
@@ -20,6 +24,7 @@ import org.jetbrains.compose.resources.painterResource
 fun App() {
     MaterialTheme {
         var greetingText by remember { mutableStateOf("Hello, World!") }
+        var sdkButtonText by remember { mutableStateOf("Run  launches.size = ?") }
         var showImage by remember { mutableStateOf(false) }
         Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
             Button(onClick = {
@@ -28,6 +33,13 @@ fun App() {
             }) {
                 Text(greetingText)
             }
+            Button(onClick = {
+                CoroutineScope(Dispatchers.Main).launch {
+                    val size = SpaceXSDK().getLaunches(false).size
+                    sdkButtonText = "Run  launches.size = $size"
+                }
+            }) { Text(sdkButtonText) }
+
             AnimatedVisibility(showImage) {
                 Image(
                     painterResource("compose-multiplatform.xml"),
