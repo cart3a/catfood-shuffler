@@ -1,4 +1,4 @@
-rootProject.name = "MyApplication"
+rootProject.name = "catfood-shuffler"
 
 include(":androidApp")
 include(":shared")
